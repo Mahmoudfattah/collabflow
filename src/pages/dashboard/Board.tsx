@@ -1,4 +1,8 @@
 import { MoreHorizontal, MessageSquare, Paperclip, Plus, SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { useState } from "react";
+import TaskDetailPanel, { mockTaskDetail, type TaskDetailData } from "./Taskdetailpanel";
+
+
 
 // ─── Types ────────────────────────────────────────────────────
 type Priority = "HIGH" | "MEDIUM" | "LOW" | "URGENT";
@@ -24,6 +28,11 @@ interface Column {
   label: string;
   count: number;
   tasks: TaskCard[];
+}
+
+interface ColumnProps {
+  column: Column;
+  onTaskClick: (task: TaskCard) => void;
 }
 
 // ─── Mock Data ────────────────────────────────────────────────
@@ -134,15 +143,18 @@ function PriorityChip({ priority }: { priority: Priority }) {
 }
 
 // ─── Task Card ────────────────────────────────────────────────
-function TaskCardItem({ task }: { task: TaskCard }) {
+function TaskCardItem({ task, onClick }: { task: TaskCard; onClick: () => void }) {
   return (
-    <div className="
-      bg-[#1f1f27] border border-[#464554] rounded-xl
-      hover:border-[#908fa0] hover:shadow-[0_4px_12px_rgba(0,0,0,0.4)]
-      hover:-translate-y-0.5
-      transition-all duration-150 cursor-pointer
-      overflow-hidden
-    ">
+    <div
+      onClick={onClick}
+      className="
+        bg-[#1f1f27] border border-[#464554] rounded-xl
+        hover:border-[#908fa0] hover:shadow-[0_4px_12px_rgba(0,0,0,0.4)]
+        hover:-translate-y-0.5
+        transition-all duration-150 cursor-pointer
+        overflow-hidden
+      "
+    >
       {/* Cover image */}
       {task.coverImage && (
         <div className="w-full h-32 overflow-hidden">
@@ -158,7 +170,10 @@ function TaskCardItem({ task }: { task: TaskCard }) {
             {task.isLive && (
               <span className="w-2 h-2 rounded-full bg-[#8083ff] animate-pulse" />
             )}
-            <button className="text-[#464554] hover:text-[#908fa0] transition-colors">
+            <button
+              onClick={(e) => e.stopPropagation()}
+              className="text-[#464554] hover:text-[#908fa0] transition-colors"
+            >
               <MoreHorizontal size={14} />
             </button>
           </div>
@@ -198,7 +213,6 @@ function TaskCardItem({ task }: { task: TaskCard }) {
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-1">
-          {/* Left meta */}
           <div className="flex items-center gap-3">
             {task.comments !== undefined && (
               <span className="flex items-center gap-1 text-xs text-[#908fa0]">
@@ -217,7 +231,6 @@ function TaskCardItem({ task }: { task: TaskCard }) {
             )}
           </div>
 
-          {/* Avatars */}
           {task.avatars && task.avatars.length > 0 && (
             <div className="flex items-center">
               {task.avatars.map((src, i) => (
@@ -238,7 +251,7 @@ function TaskCardItem({ task }: { task: TaskCard }) {
 }
 
 // ─── Kanban Column ────────────────────────────────────────────
-function KanbanColumn({ column }: { column: Column }) {
+function KanbanColumn({ column, onTaskClick }: ColumnProps) {
   const isDone = column.id === "done";
 
   return (
@@ -269,7 +282,11 @@ function KanbanColumn({ column }: { column: Column }) {
       {/* Cards */}
       <div className="flex flex-col gap-3">
         {column.tasks.map((task) => (
-          <TaskCardItem key={task.id} task={task} />
+          <TaskCardItem
+            key={task.id}
+            task={task}
+            onClick={() => onTaskClick(task)}
+          />
         ))}
       </div>
     </div>
@@ -278,15 +295,15 @@ function KanbanColumn({ column }: { column: Column }) {
 
 // ─── Main Page ────────────────────────────────────────────────
 export default function Board() {
+const [selectedTask, setSelectedTask] = useState<TaskDetailData | null>(null);
+
   return (
-    <div className="  min-h-screen ">
+    <div className="min-h-screen">
       <div className="px-6 py-5 flex flex-col gap-5">
 
         {/* Page Header */}
         <div className="flex items-center justify-between">
-          {/* Left */}
           <div className="flex flex-col gap-2">
-            {/* Breadcrumb */}
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold text-[#908fa0] uppercase tracking-widest">
                 Project Alpha
@@ -297,11 +314,9 @@ export default function Board() {
               </span>
             </div>
 
-            {/* Avatars + Progress */}
             <div className="flex items-center gap-3">
-              {/* Avatar stack */}
               <div className="flex items-center">
-                {["1","2","3"].map((img, i) => (
+                {["1", "2", "3"].map((img, i) => (
                   <img
                     key={img}
                     src={`https://i.pravatar.cc/28?img=${i + 1}`}
@@ -318,10 +333,8 @@ export default function Board() {
                 </span>
               </div>
 
-              {/* Divider */}
               <div className="w-px h-4 bg-[#464554]" />
 
-              {/* Progress bar */}
               <div className="flex items-center gap-2">
                 <div className="w-24 h-1.5 bg-[#464554] rounded-full overflow-hidden">
                   <div className="h-full w-[68%] bg-[#8083ff] rounded-full" />
@@ -333,7 +346,6 @@ export default function Board() {
             </div>
           </div>
 
-          {/* Right — Actions */}
           <div className="flex items-center gap-2">
             <button className="
               flex items-center gap-2 px-3 py-2 rounded-lg
@@ -371,7 +383,16 @@ export default function Board() {
         {/* Kanban Board */}
         <div className="flex gap-4 overflow-x-auto pb-4">
           {columns.map((col) => (
-            <KanbanColumn key={col.id} column={col} />
+            <KanbanColumn
+              key={col.id}
+              column={col}
+             onTaskClick={(task) => setSelectedTask({
+  ...mockTaskDetail,
+  id: task.id,
+  title: task.title,
+  priority: task.priority,
+})}
+            />
           ))}
         </div>
       </div>
@@ -388,6 +409,15 @@ export default function Board() {
       ">
         <Plus size={20} />
       </button>
+
+      {/* Task Detail Panel */}
+      {selectedTask && (
+        // TODO: replace with <TaskDetailPanel task={selectedTask} onClose={() => setSelectedTask(null)} />
+       <TaskDetailPanel
+    task={selectedTask}
+    onClose={() => setSelectedTask(null)}
+  />
+      )}
     </div>
   );
 }

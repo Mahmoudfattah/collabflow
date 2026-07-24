@@ -1,12 +1,13 @@
 import { createHashRouter , RouterProvider } from "react-router-dom";
-import AuthLayout from "../layouts/AuthLayout";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import Sidebar from "../layouts/Sidebar";
+// import AuthLayout from "../layouts/AuthLayout";
+// import Login from "../pages/auth/Login";
+// import Register from "../pages/auth/Register";
+// import Sidebar from "../layouts/Sidebar";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Board from "../pages/dashboard/Board";
 import SprintBoard from "../pages/dashboard/Sprintboard";
+import Inbox from "../pages/dashboard/Inbox";
 
 
 const router = createHashRouter ([
@@ -41,6 +42,11 @@ const router = createHashRouter ([
         {
             path : "/sprint-board",
             element : <SprintBoard/>
+        },
+       
+        {
+            path : "/inbox",
+            element : <Inbox/>
         },
        
         
