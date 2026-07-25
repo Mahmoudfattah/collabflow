@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 
 
-
 export type NotificationFilter = 'all' | 'unread'
 
+
 export interface Notification {
- id: string;
+  id: string;
 
   period: "Today" | "Yesterday" | "Earlier";
 
@@ -16,10 +16,10 @@ export interface Notification {
 
   avatar: string;
 
-
   unread: boolean;
 
   icon: LucideIcon;
   bg : string
   color:string
 }
+

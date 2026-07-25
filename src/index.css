@@ -1056,3 +1056,35 @@ html, body, #root {
 button{
   cursor: pointer;
 }
+
+
+
+.icon {
+  /* Icon */
+
+width: 2px;
+height: 8px;
+
+background: #D4D4D8;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+}
+.icon2 {
+  width: 2px;
+height: 2px;
+ 
+border-radius: var(--radius-full);
+
+
+background: #D4D4D8;
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+}

@@ -1,9 +1,16 @@
-import { AtSign, CircleCheck, IdCardLanyard, MessageSquare } from "lucide-react";
+
+import {
+  MessageSquare,
+  AtSign,
+  CircleCheck,
+  IdCardLanyard
+ 
+} from "lucide-react";
 import type { Notification } from "./type";
 
 
-export const notifications : Notification[]=[
-    {
+export  const notifications: Notification[] = [
+  {
     id: "1",
     period: "Today",
     title: "Sarah Chen commented on",
@@ -55,4 +62,4 @@ export const notifications : Notification[]=[
     color: 'text-green-400'
     
   },
-]
+];

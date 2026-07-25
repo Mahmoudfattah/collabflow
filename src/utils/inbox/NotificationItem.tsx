@@ -1,23 +1,22 @@
-import type { Notification } from "./type";
+ import type { Notification } from "./type";
 
 
 
 interface NotificationItemProps {
-    notification : Notification,
-    onRead : (id : string)=> void
+  notification: Notification;
+  onRead: (id: string) => void;
 }
 
+export default function NotificationItem({
+  notification,
+  onRead,
+}: NotificationItemProps) {
+    
+  const Icon = notification.icon;
 
-export default function NotificationItem ({
-    notification,onRead
-} : NotificationItemProps) {
-
-    const Icon = notification.icon
-
-    return (
-
-          <li className="rounded-lg border border-zinc-800 bg-[#1E2028] p-5">
-          <div className="flex items-start justify-between">
+  return (
+    <li className="rounded-lg border border-zinc-800 bg-[#1E2028] p-5">
+      <div className="flex items-start justify-between">
 
         <div className="flex gap-4">
 
@@ -70,10 +69,5 @@ export default function NotificationItem ({
 
       </div>
     </li>
-    )
-
-
-
-
-
+  );
 }
