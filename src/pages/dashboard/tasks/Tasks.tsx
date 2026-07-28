@@ -160,8 +160,6 @@
 
 // export default Tasks;
 
-
-
 const groups = [
   {
     status: "Todo",
@@ -180,44 +178,41 @@ const groups = [
 ];
 
 import { useState } from "react";
-import TasksToolBar from "./TasksToolBar";
-import type {
- 
-  Task,
-
- 
-
-  TasksFilter,
-} from "./type";
-import {  tasksFilter } from "./tasksGroup";
+// import TasksToolBar from "./TasksToolBar";
+import type { Task, TaskFilters, TasksFilter } from "./type";
+import { tasksFilter } from "./tasksGroup";
 import TaskGroupSection from "./TasksGroupSection";
-
+import TaskTabs from "./TaskTabs";
+// import TaskFilters from "./TaskFilters";
+import TaskFilterButton from "./TaskFilterButton";
+import { filterButtons } from "./taskFilter";
 
 // ─── Mock Data ────────────────────────────────────────────────
 
-
 // ─── Main Page ────────────────────────────────────────────────
 const Tasks = () => {
-  const [filter, setFilter] = useState<TasksFilter>("all");
+  const [activeTap, setActiveTap] = useState<TasksFilter>("all");
   const [tasks, setTasks] = useState<Task[]>(tasksFilter);
 
-  // Toggle task done/undone
- function handleToggle(id: string) {
-  setTasks((prev) =>
-    prev.map((task) => {
-      if (task.id !== id) return task;
+  const [filters, setFilters] = useState<TaskFilters>({
+    status: [],
+    priority: [],
+    dueDate: [],
+  });
 
-      return {
-        ...task,
-        status:
-          task.status === "Done"
-            ? "Todo"
-            : "Done",
-      };
-    }),
-  );
-}
-  
+  // Toggle task done/undone
+  function handleToggle(id: string) {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id !== id) return task;
+
+        return {
+          ...task,
+          status: task.status === "Done" ? "Todo" : "Done",
+        };
+      }),
+    );
+  }
 
   return (
     <section className="flex min-h-screen flex-col px-6 py-5">
@@ -230,22 +225,57 @@ const Tasks = () => {
       </div>
 
       {/* Toolbar (tabs + filters) */}
-      <TasksToolBar filter={filter} setFilter={setFilter} />
+      <>
+        <div className=" flex items-center justify-between  ">
+          <TaskTabs value={activeTap} onChange={setActiveTap} />
+          <div className="flex gap-4">
+
+          <TaskFilterButton
+            filterButton={filterButtons[0]}
+            selected={filters.status}
+            onChange={(values) =>
+              setFilters((prev) => ({
+                ...prev,
+                status: values as Task["status"][],
+              }))
+            }
+          />
+          <TaskFilterButton
+            filterButton={filterButtons[1]}
+            selected={filters.priority}
+            onChange={(values) =>
+              setFilters((prev) => ({
+                ...prev,
+                priority: values as Task["priority"][],
+              }))
+            }
+          />
+          <TaskFilterButton
+            filterButton={filterButtons[2]}
+            selected={filters.dueDate}
+            onChange={(values) =>
+              setFilters((prev) => ({
+                ...prev,
+                dueDate: values as Task["dueDate"][],
+              }))
+            }
+          />
+            </div>
+        </div>
+
+        <div className="mt-4 h-px w-full bg-[#71717A]" />
+      </>
 
       {/* Groups */}
       <div className="flex flex-col gap-1">
-       {
-  groups.map((group) => (
-    <TaskGroupSection
-      key={group.status}
-      group={group}
-      tasks={tasks.filter(
-        (task) => task.status === group.status
-      )}
-      onToggle={handleToggle}
-    />
-  ))
-}
+        {groups.map((group) => (
+          <TaskGroupSection
+            key={group.status}
+            group={group}
+            tasks={tasks.filter((task) => task.status === group.status)}
+            onToggle={handleToggle}
+          />
+        ))}
       </div>
     </section>
   );

@@ -1,22 +1,22 @@
-import { filterButtons } from "./taskFilter"
-import TaskFilterButton from "./TaskFilterButton"
+// import { filterButtons } from "./taskFilter"
+// import TaskFilterButton from "./TaskFilterButton"
 
 
 
 
 
-const TaskFilters = () => {
-  return (
-    <div className="flex gap-4">
-     {filterButtons.map((button)=>(
-        <TaskFilterButton
-         key={button.label}
-         filterButton={button}
-        />
-     ))}
+// const TaskFilters = () => {
+//   return (
+//     <div className="flex gap-4">
+//      {filterButtons.map((button)=>(
+//         <TaskFilterButton
+//          key={button.label}
+//          filterButton={button}
+//         />
+//      ))}
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-export default TaskFilters
+// export default TaskFilters

@@ -69,3 +69,11 @@ export interface FilterButton {
   options: FilterOption[];
   multiple?: boolean;
 }
+
+
+
+export interface TaskFilters {
+    status: TaskStatus[];
+    priority: TaskPriority[];
+    dueDate: string[];
+}
