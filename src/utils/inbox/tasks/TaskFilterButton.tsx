@@ -1,46 +1,32 @@
 import { useRef, useState } from "react";
 import type { FilterButton } from "./type";
-import {
-  Check,
-  // Check
-  ChevronDown,
-} from "lucide-react";
-import useOutsideClick from "../../../hooks/useOutsideClick";
+import { Check, ChevronDown } from "lucide-react";
+import useOutsiseClick from "../../tasks/useOutsideClick";
 
 interface Props {
   filterButton: FilterButton;
-  selected : string[]
-  onChange : (value : string[])=> void
+  selected: string[];
+  onChange: (values: string[]) => void;
 }
 
-const TaskFilterButton = ({ filterButton ,selected,onChange }: Props) => {
+const TaskFilterButton = ({ filterButton, selected, onChange }: Props) => {
   const [open, setOpen] = useState(false); //drop down
 
-  const dropdownRef = useRef(null)
+  const dropdownRef = useRef(null);
 
-  useOutsideClick(dropdownRef, ()=>setOpen(false))
-  
-  const handleSelect = (value : string)=>{
+  useOutsiseClick(dropdownRef, () => setOpen(false));
 
-    if(selected.includes(value)){
-    onChange(selected.filter(item=> item !==value))
+  const handleSelect = (value: string) => {
+    if (selected.includes(value)) {
+      onChange(selected.filter((item) => item !== value));
     } else {
-      onChange([
-        ...selected,
-        value
-      ])
+      onChange([...selected, value]);
     }
-
-
-
-
-
-
-  }
+  };
 
   const Icon = filterButton.icon;
   return (
-    <div className="relative"   ref={dropdownRef} >
+    <div className="relative" ref={dropdownRef}>
       <button
         className="flex items-center gap-2 rounded-md border border-[#2D2F39] bg-[#1E2028] px-4 py-2 text-[#D4D4D8]"
         onClick={() => setOpen((prev) => !prev)}
@@ -73,14 +59,13 @@ const TaskFilterButton = ({ filterButton ,selected,onChange }: Props) => {
           <div className="py-2">
             {filterButton.options.map((option) => {
               // 1. Declare logic inside function block {}
-
-              const isSelected = selected.includes(option.value)
+              const isSelected = selected.includes(option.value);
 
               // 2. Explicitly return the JSX
               return (
                 <button
                   key={option.value}
-                  onClick={()=>handleSelect(option.value)}
+                  onClick={() => handleSelect(option.value)}
                   className="
                     flex
                     w-full
@@ -98,11 +83,10 @@ const TaskFilterButton = ({ filterButton ,selected,onChange }: Props) => {
                   <div
                     className={`
                             flex h-4 w-4 items-center justify-center rounded border transition-colors
-                           ${isSelected ? "border-[#6366F1] bg-[#6366F1]" : "border-[#555]"}
+                            ${isSelected ? "border-[#6366F1] bg-[#6366F1]" : "border-[#555]"}
                           `}
-                          
                   >
-                           {isSelected && <Check size={12} className="text-white" />}
+                    {isSelected && <Check size={12} className="text-white" />}
                   </div>
                   <span>{option.label}</span>
                 </button>
