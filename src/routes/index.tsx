@@ -7,8 +7,9 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Board from "../pages/dashboard/Board";
 import SprintBoard from "../pages/dashboard/Sprintboard";
-import Inbox from "../pages/dashboard/Inbox";
+
 import Tasks from "../pages/dashboard/tasks/Tasks";
+import Inbox from "../pages/dashboard/inbox/Inbox";
 
 
 

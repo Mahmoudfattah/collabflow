@@ -90,8 +90,12 @@ export const filterButtons: FilterButton[] = [
 
             {
                 label:"This Week",
-                value:"week"
-            }
+                value:"this-week"
+            },
+            {
+                label:"Overdue",
+                value:"overdue"
+            },
         ]
     }
 ];

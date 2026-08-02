@@ -35,6 +35,7 @@ export interface Task {
   assignedTo: string;
 
   createdBy: string;
+  completedAt?: string;
 }
 
 export interface TaskGroup {

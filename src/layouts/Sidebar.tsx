@@ -1,12 +1,14 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {
-  LayoutGrid,
   CheckSquare,
   Inbox,
   Settings,
   HelpCircle,
   LucideCircuitBoard,
+  LayoutList,
+  FolderKanban,
 } from "lucide-react";
+import { useCountInbox } from "../hooks/useCountInbox";
 
 // ─── Types ────────────────────────────────────────────────────
 interface NavItem {
@@ -18,52 +20,61 @@ interface NavItem {
 
 // ─── Nav Items ────────────────────────────────────────────────
 const navItems: NavItem[] = [
-  { label: "Projects", icon: LayoutGrid,  path: "/sprint-board"         },
-  { label: "My Tasks", icon: CheckSquare, path: "/my-tasks"         },
-  { label: "Inbox",    icon: Inbox,       path: "/inbox", badge: 12 },
-  { label: "Board",    icon: LucideCircuitBoard,       path: "/board"
-  },
-  { label: "Settings", icon: Settings,    path: "/settings"         },
+  { label: "Dashboard", icon: LayoutList, path: "/" },
+  { label: "Projects", icon: FolderKanban, path: "/sprint-board" },
+  { label: "My Tasks", icon: CheckSquare, path: "/my-tasks" },
+  { label: "Inbox", icon: Inbox, path: "/inbox", badge: 12 },
+  { label: "Board", icon: LucideCircuitBoard, path: "/board" },
+  { label: "Settings", icon: Settings, path: "/settings" },
 ];
 
 // ─── Nav Item ─────────────────────────────────────────────────
 function SidebarNavItem({ item }: { item: NavItem }) {
-  const location = useLocation();
-  const isActive = location.pathname.startsWith(item.path);
+  // const location = useLocation();
+  // const isActive = location.pathname.startsWith(item.path);
   const Icon = item.icon;
+
+  const { count } = useCountInbox();
+
+
+
+
 
   return (
     <NavLink
       to={item.path}
-      className={`
-        flex items-center gap-3 px-3 py-2 rounded-md
-        text-sm transition-all duration-150 group
-        ${
-          isActive
-            ? "bg-[rgba(128,131,255,0.15)] text-[#c0c1ff] font-medium border-l-2 "
-            : "text-[#908fa0] hover:bg-[#1f1f27] hover:text-[#e4e1ed]"
-        }
-      `}
+      end={item.path === "/"}
+      className={({ isActive }) =>
+        `flex items-center gap-3 px-3 py-2 rounded-md
+            text-sm transition-all duration-150 group
+            ${
+              isActive
+                ? "bg-[rgba(128,131,255,0.15)] text-[#c0c1ff] font-medium border-l-2"
+                : "text-[#908fa0] hover:bg-[#1f1f27] hover:text-[#e4e1ed]"
+            }`
+      }
     >
-      <Icon
-        size={16}
-        className={`
-          flex-shrink-0 transition-colors duration-150
-          ${isActive ? "text-[#8083ff]" : "text-[#908fa0] group-hover:text-[#c7c4d7]"}
-        `}
-      />
-      <span className="flex-1">{item.label}</span>
+      {({ isActive }) => (
+        <>
+          <Icon
+            size={16}
+            className={
+              isActive
+                ? "text-[#8083ff]"
+                : "text-[#908fa0] group-hover:text-[#c7c4d7]"
+            }
+          />
 
-      {/* Badge */}
-      {item.badge !== undefined && item.badge > 0 && (
-        <span className="
-          min-w-[18px] h-[18px] px-1
-          flex items-center justify-center
-          rounded-full text-[10px] font-semibold
-          bg-[#494bd6] text-white
-        ">
-          {item.badge > 99 ? "99+" : item.badge}
-        </span>
+          <span className="flex-1">{item.label}</span>
+
+       {item.label === "Inbox" && count > 0 && (
+            <span
+              className="min-w-[18px] h-[18px] px-1 flex items-center justify-center rounded-full text-[10px] font-semibold bg-[#494bd6] text-white"
+            >
+              {count}
+            </span>
+          ) }
+        </>
       )}
     </NavLink>
   );
@@ -71,14 +82,18 @@ function SidebarNavItem({ item }: { item: NavItem }) {
 
 // ─── Main Sidebar ─────────────────────────────────────────────
 export default function Sidebar() {
+
+
   return (
-    <aside className="
+    <aside
+      className="
       fixed top-0 left-0 h-screen w-[230px]
       bg-[#1b1b23]
       border-r border-[#464554]
       flex flex-col
       z-40
-    ">
+    "
+    >
       {/* Logo — text only, no icon box */}
       <div className="px-4 pt-5 pb-4 ">
         <p className="text-base font-bold text-[#e4e1ed] tracking-tight leading-none">
@@ -99,12 +114,14 @@ export default function Sidebar() {
       {/* Bottom */}
       <div className="px-3 pb-3 flex flex-col gap-0.5">
         {/* Help */}
-        <button className="
+        <button
+          className="
           flex items-center gap-3 px-3 py-2 rounded-md w-full
           text-sm text-[#908fa0]
           hover:bg-[#1f1f27] hover:text-[#e4e1ed]
           transition-all duration-150 group
-        ">
+        "
+        >
           <HelpCircle
             size={16}
             className="flex-shrink-0 group-hover:text-[#c7c4d7] transition-colors"
@@ -113,11 +130,13 @@ export default function Sidebar() {
         </button>
 
         {/* User */}
-        <div className="
+        <div
+          className="
           flex items-center gap-3 px-3 py-2 mt-1
           hover:bg-[#1f1f27] cursor-pointer
           transition-all duration-150 group border-t   border-[#464554] pt-3
-        ">
+        "
+        >
           <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-[#292932]">
             <img
               src="https://i.pravatar.cc/32?img=11"

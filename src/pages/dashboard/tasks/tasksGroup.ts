@@ -1,7 +1,6 @@
 import { AlertCircle, Minus, Zap } from "lucide-react";
 import type {
   Task,
- 
   TaskPriority,
   TaskPriorityConfig,
   TaskStatus,
@@ -19,14 +18,14 @@ export const tasksFilter: Task[] = [
       text: "Cloud Foundation",
       color: "text-[#8083ff] bg-[#8083ff]/10 border border-[#8083ff]/20",
     },
-    dueDate: "Overdue(2d)",
+    dueDate: "2026-07-28", // Overdue
     isOverdue: true,
     overdueDays: 2,
-       assignedTo:"user-1",
+    assignedTo: "user-1",
 
-        createdBy:"user-2",
+    createdBy: "user-2",
   },
-  
+
   {
     id: "t2",
     status: "Todo",
@@ -37,12 +36,12 @@ export const tasksFilter: Task[] = [
       text: "Security",
       color: "text-[#4caf88] bg-[#4caf88]/10 border border-[#4caf88]/20",
     },
-    dueDate: "Oct 24",
+    dueDate: "2026-08-08",
     isOverdue: false,
-    
-    assignedTo:"user-3",
 
-   createdBy:"user-1",
+    assignedTo: "user-3",
+
+    createdBy: "user-1",
   },
 
   {
@@ -58,12 +57,12 @@ export const tasksFilter: Task[] = [
       text: "DesignOps",
       color: "text-[#ffb783] bg-[#ffb783]/10 border border-[#ffb783]/20",
     },
-    dueDate: "Tomorrow",
+    dueDate: "2026-08-01",
     isOverdue: false,
 
-   assignedTo:"user-1",
+    assignedTo: "user-1",
 
-   createdBy:"user-1",
+    createdBy: "user-1",
   },
 
   {
@@ -76,12 +75,13 @@ export const tasksFilter: Task[] = [
       text: "Core UI",
       color: "text-[#908fa0] bg-[#908fa0]/10 border border-[#908fa0]/20",
     },
-    dueDate: "Oct 12",
+    dueDate: "2026-07-20",
     isOverdue: false,
 
-   assignedTo:"user-1",
+    assignedTo: "user-1",
 
-   createdBy:"user-2",
+    createdBy: "user-2",
+    completedAt: "2026-07-21",
   },
 ];
 
